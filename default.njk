@@ -58,14 +58,26 @@
     {% endfor %}
 
     <script>
+      
+      // Service workers rock!
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js', {scope: location.pathname})
+  .then((reg) => {
+    // registration worked
+    console.log('Registration succeeded. Scope is ' + reg.scope);
+  }).catch((error) => {
+    // registration failed
+    console.log('Registration failed with ' + error);
+  });
+}
+      
+      // Main page logic
               var ids = [{% for page in pages %}"{{page.id | safe }}",{% endfor %}];
               function nav(){if(location.hash.substr(1) == ""){
          location.hash = "main"
         }
         if(!ids.includes(location.hash.substr(1))){
-       var div = document.createElement("div");
-        div.innerHTML = '<h1 class="404-title">Whoops!</h1><br><p class="404-description">That page could not be found. Would you like to go back <a href="#main">home?</a></p>';
-        document.body.appendChild(div);
+       alert("Whoops! That page could not be found!")
         }
         var i = 0;
         while(i < ids.length){
